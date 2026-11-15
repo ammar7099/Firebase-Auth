@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | TaskFlow</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #c58d43;
+            --gold-light: #ffe0a3;
+            --gold-dark: #a66c24;
+            --ink: #1d222c;
+            --muted: #737887;
+            --border: #dedfe4;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 32px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+            isolation: isolate;
+            font-family: "DM Sans", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(ellipse at 5% 5%, #f5dfc7 0%, transparent 35%),
+                radial-gradient(ellipse at 95% 95%, #f2d7b2 0%, transparent 33%),
+                linear-gradient(135deg, #f8f5f2, #f0eceb 55%, #fbf8f4);
+        }
+
+        /* Soft decorative background curves */
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            z-index: -1;
+            pointer-events: none;
+            border: 1px solid rgba(197, 141, 67, 0.35);
+            border-radius: 50%;
+        }
+
+        body::before {
+            width: 560px;
+            height: 560px;
+            top: -390px;
+            left: -170px;
+            box-shadow:
+                0 0 0 32px rgba(255, 255, 255, 0.12),
+                0 0 0 64px rgba(197, 141, 67, 0.06);
+        }
+
+        body::after {
+            width: 680px;
+            height: 680px;
+            bottom: -510px;
+            right: -280px;
+            box-shadow:
+                0 0 0 35px rgba(255, 255, 255, 0.16),
+                0 0 0 70px rgba(197, 141, 67, 0.05);
+        }
+
+        .signup-wrapper {
+            width: 100%;
+            max-width: 590px;
+            margin: auto;
+        }
+
+        .signup-card {
+            position: relative;
+            padding: 46px 44px 32px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow:
+                0 28px 80px rgba(47, 39, 29, 0.10),
+                0 4px 16px rgba(47, 39, 29, 0.04);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            animation: cardAppear 0.65s ease both;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .heading h1 {
+            margin: 0 0 12px;
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(30px, 5vw, 42px);
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -1.6px;
+            color: var(--ink);
+        }
+
+        .heading p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #656b79;
+        }
+
+        .heading-line {
+            width: 92px;
+            height: 2px;
+            margin: 25px auto 0;
+            background: linear-gradient(90deg, var(--gold-light), var(--gold));
+            border-radius: 10px;
+        }
+
+        .form-label {
+            margin-bottom: 9px;
+            color: var(--ink);
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            min-height: 58px;
+            padding: 14px 17px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--ink);
+            font-size: 15px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .form-control::placeholder {
+            color: #969aa5;
+        }
+
+        .form-control:focus {
+            background: #fff;
+            color: var(--ink);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(197, 141, 67, 0.13);
+        }
+
+        .field-group {
+            margin-bottom: 21px;
+        }
+
+        .account-prompt {
+            margin: 27px 0 28px;
+            text-align: center;
+            color: #424754;
+            font-size: 15px;
+        }
+
+        .login-link {
+            margin-left: 6px;
+            color: var(--gold-dark);
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .login-link:hover {
+            color: #80501a;
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            min-height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 18px;
+            background: linear-gradient(110deg, #ffe1a7, #e6bd7d 58%, #cb944d);
+            box-shadow: 0 8px 20px rgba(185, 126, 52, 0.12);
+            color: #191b20;
+            font-family: "Manrope", sans-serif;
+            font-size: 17px;
+            font-weight: 800;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(185, 126, 52, 0.22);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:focus-visible {
+            outline: 3px solid rgba(197, 141, 67, 0.4);
+            outline-offset: 4px;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.75;
+            cursor: wait;
+            transform: none;
+        }
+
+        .button-arrow {
+            font-size: 24px;
+            line-height: 1;
+            font-weight: 400;
+            transition: transform 0.2s ease;
+        }
+
+        .submit-btn:hover .button-arrow {
+            transform: translateX(4px);
+        }
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 29px;
+            color: #747987;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .security-note::before,
+        .security-note::after {
+            content: "";
+            width: 100%;
+            max-width: 55px;
+            height: 1px;
+            background: #d9d7d4;
+        }
+
+        .security-icon {
+            flex-shrink: 0;
+            color: var(--gold-dark);
+            font-size: 17px;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 20px 14px;
+            }
+
+            .signup-card {
+                padding: 34px 22px 25px;
+                border-radius: 24px;
+            }
+
+            .heading {
+                margin-bottom: 27px;
+            }
+
+            .heading h1 {
+                font-size: 32px;
+                letter-spacing: -1px;
+            }
+
+            .heading p {
+                font-size: 14px;
+            }
+
+            .form-control {
+                min-height: 54px;
+                font-size: 16px;
+            }
+
+            .account-prompt {
+                font-size: 13px;
+            }
+
+            .submit-btn {
+                min-height: 57px;
+                font-size: 16px;
+            }
+
+            .security-note {
+                gap: 7px;
+                font-size: 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Laptop screen height fix */
+        @media (min-width: 577px) and (max-height: 850px) {
+            body {
+                padding: 12px 20px;
+                align-items: safe center;
+            }
+
+            .signup-wrapper {
+                max-width: 550px;
+            }
+
+            .signup-card {
+                padding: 24px 36px 20px;
+                border-radius: 24px;
+            }
+
+            .heading {
+                margin-bottom: 20px;
+            }
+
+            .heading h1 {
+                font-size: 34px;
+                margin-bottom: 8px;
+            }
+
+            .heading p {
+                font-size: 14px;
+            }
+
+            .heading-line {
+                margin-top: 14px;
+            }
+
+            .field-group {
+                margin-bottom: 13px;
+            }
+
+            .form-label {
+                margin-bottom: 6px;
+                font-size: 14px;
+            }
+
+            .form-control {
+                min-height: 46px;
+                padding: 10px 14px;
+            }
+
+            .account-prompt {
+                margin: 17px 0 18px;
+                font-size: 14px;
+            }
+
+            .submit-btn {
+                min-height: 52px;
+                padding: 12px 18px;
+                font-size: 16px;
+            }
+
+            .security-note {
+                margin-top: 18px;
+            }
+        }
+
+        /* Extra-short laptop screens */
+        @media (min-width: 577px) and (max-height: 650px) {
+            body {
+                align-items: flex-start;
+            }
+
+            .signup-card {
+                padding: 18px 30px;
+            }
+
+            .heading {
+                margin-bottom: 14px;
+            }
+
+            .heading h1 {
+                font-size: 30px;
+            }
+
+            .heading-line {
+                margin-top: 10px;
+            }
+
+            .field-group {
+                margin-bottom: 9px;
+            }
+
+            .account-prompt {
+                margin: 12px 0;
+            }
+
+            .security-note {
+                margin-top: 12px;
+            }
+        }
+
+        .signup-wrapper {
+            width: 100% !important;
+            max-width: 420px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        /* Mobile layout fix */
+        @media (max-width: 576px) {
+
+            html,
+            body {
+                width: 100%;
+                min-height: 100%;
+                margin: 0;
+            }
+
+            body {
+                min-height: 100vh;
+                min-height: 100dvh;
+                padding: 20px 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+            }
+
+            .signup-wrapper {
+                width: 100% !important;
+                max-width: 420px !important;
+                margin: 0 auto !important;
+                box-sizing: border-box;
+            }
+
+            .signup-card {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 28px 22px;
+                margin: 0 auto;
+            }
+
+            .signup-card *,
+            .signup-card *::before,
+            .signup-card *::after {
+                box-sizing: border-box;
+            }
+
+            .signup-card .form-control {
+                width: 100%;
+                max-width: 100%;
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="signup-wrapper">
+        <section class="signup-card">
+
+            <header class="heading">
+                <h1>Create Account</h1>
+
+                <p>
+                    Create your account and get started.
+                </p>
+
+                <div class="heading-line"></div>
+            </header>
+
+            <form id="register-form">
+
+                <div class="field-group">
+                    <label for="register-name" class="form-label">
+                        Full Name
+                    </label>
+
+                    <input type="text" class="form-control" id="register-name" placeholder="Enter your full name"
+                        autocomplete="name" minlength="2" maxlength="80" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="register-email" class="form-label">
+                        Email Address
+                    </label>
+
+                    <input type="email" class="form-control" id="register-email" placeholder="Enter your email"
+                        autocomplete="email" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="register-password" class="form-label">
+                        Password
+                    </label>
+
+                    <input type="password" class="form-control" id="register-password" placeholder="Create a password"
+                        autocomplete="new-password" required>
+                </div>
+
+                <div class="account-prompt">
+                    Already have an account?
+
+                    <a href="../login/login.html" class="login-link">
+                        Login
+                    </a>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span>Create Account</span>
+                    <span class="button-arrow" aria-hidden="true">→</span>
+                </button>
+
+            </form>
+
+        </section>
+    </main>
+
+    <script type="module" src="../index.js"></script>
+
+</body>
+
+</html>
